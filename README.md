@@ -2,4 +2,4 @@
 
 A terminal based binary sudoku written using ncurses
 
-![Screenshot](screenshot.png)
+![screenshot](screenshot.png?raw=true "screenshot")
