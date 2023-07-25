@@ -39,6 +39,10 @@ void setup() {
 
   initBoard(boardWidth, boardHeight);
   populateBoard();
+
+  mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
+  mvprintw(1, 0, "Press [space] to flip tile!");
+  refresh();
 }
 
 void teardown() {
@@ -62,25 +66,27 @@ void view() {
     );
   }
 
-  mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
-  mvprintw(1, 0, "Press [space] to flip tile!");
-  refresh();
-
   box(boardWindow, 0, 0);
 
   for(int y = 0; y < boardHeight; y++) {
     for(int x = 0; x < boardWidth; x++) {
-      attr_t tileColor = COLOR_PAIR(isTileIncorrectAt(x, y) ? ColorError : (isTileOneAt(x, y) ? ColorOne : ColorZero));
-      wattron(boardWindow, tileColor);
+      attr_t color;
+
+      if (x == cursorX && y == cursorY) {
+        color = COLOR_PAIR(isTileOneAt(x, y) ? ColorCursorOverOne : ColorCursorOverZero);
+      } else {
+        if (isTileIncorrectAt(x, y)) {
+          color = COLOR_PAIR(ColorError);
+        } else {
+          color = COLOR_PAIR(isTileOneAt(x, y) ? ColorOne : ColorZero);
+        }
+      }
+
+      wattron(boardWindow, color);
       mvwprintw(boardWindow, y + 1, x * 2 + 1, isTileLockedAt(x, y) ? "[]" : "  ");
-      wattroff(boardWindow, tileColor);
+      wattroff(boardWindow, color);
     }
   }
-
-  attr_t cursorColor = COLOR_PAIR(isTileOneAt(cursorX, cursorY) ? ColorCursorOverOne : ColorCursorOverZero);
-  wattron(boardWindow, cursorColor);
-  mvwprintw(boardWindow, cursorY + 1, cursorX * 2 + 1, isTileLockedAt(cursorX, cursorY) ? "[]" : "  ");
-  wattroff(boardWindow, cursorColor);
 
   wrefresh(boardWindow);
 }
