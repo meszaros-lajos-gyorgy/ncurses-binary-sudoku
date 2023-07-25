@@ -7,7 +7,7 @@ int _boardHeight;
 void initBoard(int boardWidth, int boardHeight) {
   _boardWidth = boardWidth;
   _boardHeight = boardHeight;
-  board = malloc(boardWidth * boardHeight * sizeof(char));
+  board = (char *)malloc(boardWidth * boardHeight * sizeof(char));
 }
 
 void destroyBoard() {

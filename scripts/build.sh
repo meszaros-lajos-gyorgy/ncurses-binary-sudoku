@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gcc src/board.c src/main.c -lncurses -o dist/main.out
+g++ src/board.cpp src/main.cpp -lncursesw -o dist/main.out

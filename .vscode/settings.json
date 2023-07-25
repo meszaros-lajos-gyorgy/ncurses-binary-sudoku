@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.rooms": "shellscript",
+    "ncurses.h": "c",
+    "wchar.h": "c"
+  }
+}

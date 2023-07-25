@@ -1,4 +1,8 @@
-#include <ncurses.h>
+#include <iostream>
+#include <locale>
+#include <cursesw.h>
+#include <wchar.h>
+
 #include "board.h"
 
 #define CURSOR_OFF 0
@@ -22,6 +26,8 @@ enum Colors {
 };
 
 void setup() {
+  setlocale(LC_ALL, "");
+
   initscr();
 
   cbreak();
@@ -82,8 +88,14 @@ void view() {
         }
       }
 
-      wattron(boardWindow, color);
-      mvwprintw(boardWindow, y + 1, x * 2 + 1, isTileLockedAt(x, y) ? "[]" : "  ");
+      wmove(boardWindow, y + 1, x * 2 + 1);
+      wattr_on(boardWindow, color, nullptr);
+      if (isTileLockedAt(x, y)) {
+        wchar_t wstr[] = { L'░', L'░', L'\0' };
+        waddwstr(boardWindow, wstr);
+      } else {
+        wprintw(boardWindow, "  ");
+      }
       wattroff(boardWindow, color);
     }
   }
