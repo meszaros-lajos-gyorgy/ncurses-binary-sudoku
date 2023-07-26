@@ -24,9 +24,7 @@ void Board::populate() {
   this->tiles->at(2 * this->height + 3) = new Tile(ONE);
 
   this->tiles->at(3 * this->height + 0) = new Tile(UNDEFINED);
-  this->tiles->at(3 * this->height + 1) = new Tile(UNDEFINED);
-  this->tiles->at(3 * this->height + 1)->value = ONE;
-  this->tiles->at(3 * this->height + 1)->isIncorrect = true;
+  this->tiles->at(3 * this->height + 1) = new Tile(ONE);
   this->tiles->at(3 * this->height + 2) = new Tile(ZERO);
   this->tiles->at(3 * this->height + 3) = new Tile(UNDEFINED);
 }
@@ -36,5 +34,10 @@ Tile * Board::getTileAt(uint8_t x, uint8_t y) {
 }
 
 void Board::validate() {
-  // TODO
+  for(uint8_t y = 0; y < this->height; y++) {
+    for(uint8_t x = 0; x < this->width; x++) {
+      Tile * tile = this->getTileAt(x, y);
+      tile->isIncorrect = false;
+    }
+  }
 }
