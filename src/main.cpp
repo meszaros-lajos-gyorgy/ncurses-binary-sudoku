@@ -45,7 +45,7 @@ void setup() {
   board->populate();
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
-  mvprintw(1, 0, "Press [space] to flip a tile, or [0]/[1]/[backspace] to set a tile!");
+  mvprintw(1, 0, "Press [space] to flip, [0]/[1] to set and [backspace] to clear a tile!");
   refresh();
 }
 
