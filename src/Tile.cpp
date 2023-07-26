@@ -14,7 +14,7 @@ wchar_t * Tile::render() {
       chars = new wchar_t[3] { L' ', L' ', L'\0' };
       break;
     case ONE:
-      chars = new wchar_t[3] { L'▒', L'▒', L'\0' };
+      chars = new wchar_t[3] { L'▓', L'▓', L'\0' };
       break;
     case ZERO:
       chars = new wchar_t[3] { L'░', L'░', L'\0' };
