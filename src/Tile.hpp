@@ -19,6 +19,7 @@ class Tile {
     Tile(TileValues value);
 
     wchar_t * render();
+    void toggleNext();
 };
 
 #endif

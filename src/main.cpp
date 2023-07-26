@@ -129,7 +129,7 @@ void controller() {
       break;
     case ' ':
       if (!tile->isLocked) {
-        tile->value = tile->value == UNDEFINED ? ZERO : tile->value == ZERO ? ONE : UNDEFINED;
+        tile->toggleNext();
         board->validate();
       }
       break;

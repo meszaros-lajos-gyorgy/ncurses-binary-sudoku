@@ -23,3 +23,7 @@ wchar_t * Tile::render() {
 
   return chars;
 }
+
+void Tile::toggleNext() {
+  this->value = this->value == UNDEFINED ? ZERO : this->value == ZERO ? ONE : UNDEFINED;
+}
