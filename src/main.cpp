@@ -4,6 +4,7 @@
 #include <wchar.h>
 
 #include "board.h"
+#include "Tile.hpp"
 
 #define CURSOR_OFF 0
 
@@ -18,10 +19,8 @@ int cursorX = 0;
 int cursorY = 0;
 
 enum Colors {
-  ColorCursorOverZero = 1,
-  ColorCursorOverOne,
-  ColorZero,
-  ColorOne,
+  ColorDefault = 1,
+  ColorCursor,
   ColorError
 };
 
@@ -37,11 +36,9 @@ void setup() {
   keypad(stdscr, true);
   start_color();
 
-  init_pair(ColorCursorOverZero, COLOR_WHITE, COLOR_BLUE);
-  init_pair(ColorCursorOverOne, COLOR_BLACK, COLOR_MAGENTA);
-  init_pair(ColorZero, COLOR_WHITE, COLOR_BLACK);
-  init_pair(ColorOne, COLOR_BLACK, COLOR_WHITE);
-  init_pair(ColorError, COLOR_BLACK, COLOR_RED);
+  init_pair(ColorDefault, COLOR_WHITE, COLOR_BLACK);
+  init_pair(ColorCursor, COLOR_BLACK, COLOR_YELLOW);
+  init_pair(ColorError, COLOR_RED, COLOR_BLACK);
 
   initBoard(boardWidth, boardHeight);
   populateBoard();
@@ -79,23 +76,23 @@ void view() {
       attr_t color;
 
       if (x == cursorX && y == cursorY) {
-        color = COLOR_PAIR(isTileOneAt(x, y) ? ColorCursorOverOne : ColorCursorOverZero);
+        color = COLOR_PAIR(ColorCursor);
+      } else if (isTileIncorrectAt(x, y)) {
+        color = COLOR_PAIR(ColorError);
       } else {
-        if (isTileIncorrectAt(x, y)) {
-          color = COLOR_PAIR(ColorError);
-        } else {
-          color = COLOR_PAIR(isTileOneAt(x, y) ? ColorOne : ColorZero);
-        }
+        color = COLOR_PAIR(ColorDefault);
       }
 
+      Tile * tile = new Tile(
+        isTileDefinedAt(x, y),
+        isTileOneAt(x, y),
+        isTileLockedAt(x, y),
+        isTileIncorrectAt(x, y)
+      );
+
       wmove(boardWindow, y + 1, x * 2 + 1);
-      wattr_on(boardWindow, color, nullptr);
-      if (isTileLockedAt(x, y)) {
-        wchar_t wstr[] = { L'░', L'░', L'\0' };
-        waddwstr(boardWindow, wstr);
-      } else {
-        wprintw(boardWindow, "  ");
-      }
+      wattron(boardWindow, color);
+      waddwstr(boardWindow, tile->render());
       wattroff(boardWindow, color);
     }
   }
@@ -127,7 +124,7 @@ void controller() {
       break;
     case ' ':
       if (!isTileLockedAt(cursorX, cursorY)) {
-        setTileAt(cursorX, cursorY, isTileOneAt(cursorX, cursorY) ? (TileValue & 0b0000) : (TileValue & 0b1111));
+        setTileAt(cursorX, cursorY, (isTileOneAt(cursorX, cursorY) ? 0 : TileValue) | TileDefined);
       }
       break;
     case 'q':

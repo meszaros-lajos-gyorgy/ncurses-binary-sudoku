@@ -37,24 +37,29 @@ bool isTileOneAt(int x, int y) {
   return (tile & TileValue) != 0;
 }
 
+bool isTileDefinedAt(int x, int y) {
+  char tile = getTileAt(x, y);
+  return (tile & TileDefined) != 0;
+}
+
 void populateBoard() {
   board[0 * 4 + 0] = 0;
   board[0 * 4 + 1] = 0;
   board[0 * 4 + 2] = 0;
-  board[0 * 4 + 3] = TileLocked | (TileValue & 0b1111);
+  board[0 * 4 + 3] = TileDefined | TileLocked | TileValue;
 
   board[1 * 4 + 0] = 0;
-  board[1 * 4 + 1] = TileLocked | (TileValue & 0b1111);
-  board[1 * 4 + 2] = TileLocked | (TileValue & 0b1111);
+  board[1 * 4 + 1] = TileDefined | TileLocked | TileValue;
+  board[1 * 4 + 2] = TileDefined | TileLocked | TileValue;
   board[1 * 4 + 3] = 0;
 
-  board[2 * 4 + 0] = TileLocked | (TileValue & 0b0000);
-  board[2 * 4 + 1] = TileLocked | (TileValue & 0b0000);
+  board[2 * 4 + 0] = TileDefined | TileLocked;
+  board[2 * 4 + 1] = TileDefined | TileLocked;
   board[2 * 4 + 2] = 0;
-  board[2 * 4 + 3] = TileLocked | (TileValue & 0b1111);
+  board[2 * 4 + 3] = TileDefined | TileLocked | TileValue;
 
   board[3 * 4 + 0] = 0;
-  board[3 * 4 + 1] = (TileValue & 0b1111) | (TileError & 0b1111);
-  board[3 * 4 + 2] = TileLocked | (TileValue & 0b0000);
+  board[3 * 4 + 1] = TileDefined | TileValue | TileError;
+  board[3 * 4 + 2] = TileDefined | TileLocked;
   board[3 * 4 + 3] = 0;
 }

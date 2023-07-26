@@ -27,5 +27,6 @@ void setTileAt(int x, int y, char value);
 bool isTileLockedAt(int x, int y);
 bool isTileIncorrectAt(int x, int y);
 bool isTileOneAt(int x, int y);
+bool isTileDefinedAt(int x, int y);
 
 #endif
