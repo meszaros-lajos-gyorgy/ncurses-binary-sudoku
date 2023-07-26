@@ -11,9 +11,6 @@ WINDOW * boardWindow;
 int lastPressedKey = 0;
 bool programCanExit = false;
 
-const int boardWidth = 4;
-const int boardHeight = 4;
-
 Board * board;
 
 int cursorX = 0;
@@ -41,7 +38,7 @@ void setup() {
   init_pair(ColorCursor, COLOR_BLACK, COLOR_YELLOW);
   init_pair(ColorError, COLOR_RED, COLOR_BLACK);
 
-  board = new Board(boardWidth, boardHeight);
+  board = new Board(4, 4);
   board->populate();
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
@@ -60,13 +57,13 @@ void view() {
   int windowPositionLeft = 4;
 
   if (boardWindow == NULL) {
-    boardWindow = newwin(boardHeight + 2, boardWidth * 2 + 2, windowPositionTop, windowPositionLeft);
+    boardWindow = newwin(board->getHeight() + 2, board->getWidth() * 2 + 2, windowPositionTop, windowPositionLeft);
   }
 
   box(boardWindow, 0, 0);
 
-  for(int y = 0; y < boardHeight; y++) {
-    for(int x = 0; x < boardWidth; x++) {
+  for(int y = 0; y < board->getHeight(); y++) {
+    for(int x = 0; x < board->getWidth(); x++) {
       Tile * tile = board->getTileAt(x, y);
       attr_t color;
 
@@ -98,7 +95,7 @@ void controller() {
       }
       break;
     case KEY_RIGHT:
-      if (cursorX < boardWidth - 1) {
+      if (cursorX < board->getWidth() - 1) {
         cursorX += 1;
       }
       break;
@@ -108,7 +105,7 @@ void controller() {
       }
       break;
     case KEY_DOWN:
-      if (cursorY < boardHeight - 1) {
+      if (cursorY < board->getHeight() - 1) {
         cursorY += 1;
       }
       break;

@@ -12,6 +12,8 @@ class Board {
     void populate();
     Tile * getTileAt(uint8_t x, uint8_t y);
     void validate();
+    uint8_t getWidth();
+    uint8_t getHeight();
 
   private:
     uint8_t width;

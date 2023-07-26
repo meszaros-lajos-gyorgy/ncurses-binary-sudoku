@@ -41,3 +41,11 @@ void Board::validate() {
     }
   }
 }
+
+uint8_t Board::getWidth() {
+  return this->width;
+}
+
+uint8_t Board::getHeight() {
+  return this->height;
+}
