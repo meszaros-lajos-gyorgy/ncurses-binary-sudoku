@@ -8,6 +8,10 @@ Board::Board(uint8_t width, uint8_t height) {
 void Board::populate() {
   this->tiles = new std::vector<Tile *>(this->width * this->height);
 
+  for(int i = 0; i < this->tiles->size(); i++) {
+    this->tiles->at(i) = new Tile(UNDEFINED);
+  }
+
   this->tiles->at(0 * this->height + 0) = new Tile(UNDEFINED);
   this->tiles->at(0 * this->height + 1) = new Tile(UNDEFINED);
   this->tiles->at(0 * this->height + 2) = new Tile(UNDEFINED);

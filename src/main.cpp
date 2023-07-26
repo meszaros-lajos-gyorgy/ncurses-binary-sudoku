@@ -38,7 +38,7 @@ void setup() {
   init_pair(ColorCursor, COLOR_BLACK, COLOR_YELLOW);
   init_pair(ColorError, COLOR_RED, COLOR_BLACK);
 
-  board = new Board(4, 4);
+  board = new Board(8, 8);
   board->populate();
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
