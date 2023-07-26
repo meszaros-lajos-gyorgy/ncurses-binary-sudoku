@@ -2,15 +2,21 @@
 #define TILE_HPP_
 
 #include <wchar.h>
+#include <cstdint>
+
+enum TileValues {
+  UNDEFINED,
+  ZERO,
+  ONE
+};
 
 class Tile {
   public:
-    bool isDefined;
+    TileValues value;
     bool isLocked;
     bool isIncorrect;
-    bool value;
 
-    Tile(bool isDefined, bool value, bool isLocked, bool isIncorrect = false);
+    Tile(TileValues value);
 
     wchar_t * render();
 };

@@ -1,20 +1,25 @@
 #include "Tile.hpp"
 
-Tile::Tile(bool isDefined, bool value, bool isLocked, bool isIncorrect) {
-  this->isDefined = isDefined;
+Tile::Tile(TileValues value) {
   this->value = value;
-  this->isLocked = isLocked;
-  this->isIncorrect = isIncorrect;
+  this->isLocked = value != UNDEFINED;
+  this->isIncorrect = false;
 }
 
 wchar_t * Tile::render() {
-  if (!this->isDefined) {
-    return new wchar_t[3] { L' ', L' ', L'\0' };
+  wchar_t * chars;
+
+  switch(this->value) {
+    case UNDEFINED:
+      chars = new wchar_t[3] { L' ', L' ', L'\0' };
+      break;
+    case ONE:
+      chars = new wchar_t[3] { L'▓', L'▓', L'\0' };
+      break;
+    case ZERO:
+      chars = new wchar_t[3] { L'░', L'░', L'\0' };
+      break;
   }
 
-  if (this->value) {
-    return new wchar_t[3] { L'▓', L'▓', L'\0' };
-  } else {
-    return new wchar_t[3] { L'░', L'░', L'\0' };
-  }
+  return chars;
 }
