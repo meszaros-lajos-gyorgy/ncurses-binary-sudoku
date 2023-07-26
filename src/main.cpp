@@ -19,7 +19,8 @@ int cursorY = 0;
 enum Colors {
   ColorDefault = 1,
   ColorCursor,
-  ColorError
+  ColorError,
+  ColorSolved
 };
 
 void setup() {
@@ -37,6 +38,7 @@ void setup() {
   init_pair(ColorDefault, COLOR_WHITE, COLOR_BLACK);
   init_pair(ColorCursor, COLOR_BLACK, COLOR_YELLOW);
   init_pair(ColorError, COLOR_RED, COLOR_BLACK);
+  init_pair(ColorSolved, COLOR_GREEN, COLOR_BLACK);
 
   board = new Board(8, 8);
   board->populate();
