@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Board.hpp"
 
 Board::Board(uint8_t width, uint8_t height) {
@@ -40,7 +41,11 @@ void Board::populate() {
 }
 
 Tile * Board::getTileAt(uint8_t x, uint8_t y) {
-  return this->tiles->at(y * this->height + x);
+  try {
+    return this->tiles->at(y * this->height + x);
+  } catch(const std::out_of_range & err) {
+    return nullptr;
+  }
 }
 
 void Board::setTileAt(uint8_t x, uint8_t y, Tile * value) {
@@ -51,9 +56,48 @@ void Board::validate() {
   for(uint8_t y = 0; y < this->height; y++) {
     for(uint8_t x = 0; x < this->width; x++) {
       Tile * tile = this->getTileAt(x, y);
-      tile->isIncorrect = false;
+
+      if (tile->value == UNDEFINED) {
+        tile->isIncorrect = false;
+        continue;
+      }
+
+      tile->isIncorrect =
+        this->isInHorizontalTriplet(x, y)
+        || this->isInVerticalTriplet(x, y)
+      ;
     }
   }
+}
+
+bool Board::isInHorizontalTriplet(uint8_t x, uint8_t y) {
+  Tile * self = this->getTileAt(x, y);
+
+  Tile * left1 = this->getTileAt(x - 1, y);
+  Tile * left2 = this->getTileAt(x - 2, y);
+  Tile * right1 = this->getTileAt(x + 1, y);
+  Tile * right2 = this->getTileAt(x + 2, y);
+
+  bool isMiddle = left1 != nullptr && right1 != nullptr && self->value == left1->value && self->value == right1->value;
+  bool isRight = left1 != nullptr && left2 != nullptr && self->value == left1->value && self->value == left2->value;
+  bool isLeft = right1 != nullptr && right2 != nullptr && self->value == right1->value && self->value == right2->value;
+
+  return isMiddle || isRight || isLeft;
+}
+
+bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
+  Tile * self = this->getTileAt(x, y);
+
+  Tile * top1 = this->getTileAt(x, y - 1);
+  Tile * top2 = this->getTileAt(x, y - 2);
+  Tile * bottom1 = this->getTileAt(x, y + 1);
+  Tile * bottom2 = this->getTileAt(x, y + 2);
+
+  bool isMiddle = top1 != nullptr && bottom1 != nullptr && self->value == top1->value && self->value == bottom1->value;
+  bool isBottom = top1 != nullptr && top2 != nullptr && self->value == top1->value && self->value == top2->value;
+  bool isTop = bottom1 != nullptr && bottom2 != nullptr && self->value == bottom1->value && self->value == bottom2->value;
+
+  return isMiddle || isBottom || isTop;
 }
 
 uint8_t Board::getWidth() {

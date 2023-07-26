@@ -20,6 +20,9 @@ class Board {
     uint8_t width;
     uint8_t height;
     std::vector<Tile *> * tiles;
+
+    bool isInHorizontalTriplet(uint8_t x, uint8_t y);
+    bool isInVerticalTriplet(uint8_t x, uint8_t y);
 };
 
 #endif
