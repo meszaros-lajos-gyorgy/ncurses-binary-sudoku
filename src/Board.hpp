@@ -23,6 +23,8 @@ class Board {
 
     bool isInHorizontalTriplet(uint8_t x, uint8_t y);
     bool isInVerticalTriplet(uint8_t x, uint8_t y);
+    uint8_t countSybolsInRow(uint8_t y, TileValues symbol);
+    uint8_t countSybolsInColumn(uint8_t x, TileValues symbol);
 };
 
 #endif
