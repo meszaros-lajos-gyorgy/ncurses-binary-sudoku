@@ -116,6 +116,10 @@ bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
 }
 
 uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
+  if (y < 0 || y >= this->height) {
+    return 0;
+  }
+
   uint8_t sum = 0;
 
   for (uint8_t x = 0; x < this->width; x++) {
@@ -128,6 +132,10 @@ uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
 }
 
 uint8_t Board::countSybolsInColumn(uint8_t x, TileValues symbol) {
+  if (x < 0 || x >= this->width) {
+    return;
+  }
+
   uint8_t sum = 0;
 
   for (uint8_t y = 0; y < this->height; y++) {
