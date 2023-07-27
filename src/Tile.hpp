@@ -23,6 +23,7 @@ class Tile {
 
     wchar_t * render();
     void toggleNext();
+    bool equals(Tile * otherTile);
 };
 
 #endif

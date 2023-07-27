@@ -27,3 +27,7 @@ wchar_t * Tile::render() {
 void Tile::toggleNext() {
   this->value = this->value == UNDEFINED ? ZERO : this->value == ZERO ? ONE : UNDEFINED;
 }
+
+bool Tile::equals(Tile * otherTile) {
+  return otherTile != nullptr && otherTile->value == this->value;
+}
