@@ -1,14 +1,15 @@
+#include <algorithm>
 #include "Board.hpp"
 
 Board::Board(uint8_t width, uint8_t height) {
-  this->width = width;
-  this->height = height;
+  this->width = std::clamp(width, (uint8_t)2, (uint8_t)16);
+  this->height = std::clamp(height, (uint8_t)2, (uint8_t)16);
 }
 
 void Board::populate() {
   this->tiles = new std::vector<Tile *>(this->width * this->height);
 
-  for(int i = 0; i < this->tiles->size(); i++) {
+  for(uint8_t i = 0; i < this->tiles->size(); i++) {
     this->tiles->at(i) = new Tile(UNDEFINED);
   }
 

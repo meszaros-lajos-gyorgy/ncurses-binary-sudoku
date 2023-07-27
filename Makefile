@@ -1,7 +1,7 @@
 all: run
 
 build:
-	g++ src/Tile.cpp src/Board.cpp src/main.cpp -lncursesw -o dist/main.out
+	g++ src/Tile.cpp src/Board.cpp src/main.cpp -std=c++17 -Wall -lncursesw -o dist/main.out
 
 run: build
 	dist/main.out
