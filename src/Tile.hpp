@@ -12,6 +12,9 @@ enum TileValues {
 
 class Tile {
   public:
+    static constexpr uint8_t width = 2;
+    static constexpr uint8_t height = 1;
+
     TileValues value;
     bool isLocked;
     bool isIncorrect;
