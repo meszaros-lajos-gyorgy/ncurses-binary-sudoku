@@ -59,7 +59,12 @@ void view() {
   int windowPositionLeft = 4;
 
   if (boardWindow == NULL) {
-    boardWindow = newwin(board->getHeight() + 2, board->getWidth() * 2 + 2, windowPositionTop, windowPositionLeft);
+    boardWindow = newwin(
+      board->getHeight() * Tile::height + 2,
+      board->getWidth() * Tile::width + 2,
+      windowPositionTop,
+      windowPositionLeft
+    );
   }
 
   box(boardWindow, 0, 0);
@@ -77,7 +82,7 @@ void view() {
         color = COLOR_PAIR(ColorDefault);
       }
 
-      wmove(boardWindow, y + 1, x * 2 + 1);
+      wmove(boardWindow, y * Tile::height + 1, x * Tile::width + 1);
       wattron(boardWindow, color);
       waddwstr(boardWindow, tile->render());
       wattroff(boardWindow, color);
