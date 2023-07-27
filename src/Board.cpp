@@ -86,31 +86,31 @@ void Board::validate() {
 }
 
 bool Board::isInHorizontalTriplet(uint8_t x, uint8_t y) {
-  Tile * self = this->getTileAt(x, y);
+  Tile * thisTile = this->getTileAt(x, y);
 
   Tile * left1 = this->getTileAt(x - 1, y);
   Tile * left2 = this->getTileAt(x - 2, y);
   Tile * right1 = this->getTileAt(x + 1, y);
   Tile * right2 = this->getTileAt(x + 2, y);
 
-  bool isMiddle = left1 != nullptr && right1 != nullptr && self->value == left1->value && self->value == right1->value;
-  bool isRight = left1 != nullptr && left2 != nullptr && self->value == left1->value && self->value == left2->value;
-  bool isLeft = right1 != nullptr && right2 != nullptr && self->value == right1->value && self->value == right2->value;
+  bool isMiddle = thisTile->equals(left1) && thisTile->equals(right1);
+  bool isRight = thisTile->equals(left1) && thisTile->equals(left2);
+  bool isLeft = thisTile->equals(right1) && thisTile->equals(right2);
 
   return isMiddle || isRight || isLeft;
 }
 
 bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
-  Tile * self = this->getTileAt(x, y);
+  Tile * thisTile = this->getTileAt(x, y);
 
   Tile * top1 = this->getTileAt(x, y - 1);
   Tile * top2 = this->getTileAt(x, y - 2);
   Tile * bottom1 = this->getTileAt(x, y + 1);
   Tile * bottom2 = this->getTileAt(x, y + 2);
 
-  bool isMiddle = top1 != nullptr && bottom1 != nullptr && self->value == top1->value && self->value == bottom1->value;
-  bool isBottom = top1 != nullptr && top2 != nullptr && self->value == top1->value && self->value == top2->value;
-  bool isTop = bottom1 != nullptr && bottom2 != nullptr && self->value == bottom1->value && self->value == bottom2->value;
+  bool isMiddle = thisTile->equals(top1) && thisTile->equals(bottom1);
+  bool isBottom = thisTile->equals(top1) && thisTile->equals(top2);
+  bool isTop = thisTile->equals(bottom1) && thisTile->equals(bottom2);
 
   return isMiddle || isBottom || isTop;
 }
@@ -133,7 +133,7 @@ uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
 
 uint8_t Board::countSybolsInColumn(uint8_t x, TileValues symbol) {
   if (x < 0 || x >= this->width) {
-    return;
+    return 0;
   }
 
   uint8_t sum = 0;
