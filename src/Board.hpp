@@ -30,6 +30,9 @@ class Board {
     uint8_t countSameSybolsInColumn(uint8_t x, uint8_t y);
     bool hasTooManySameSymbolsInRow(uint8_t x, uint8_t y);
     bool hasTooManySameSymbolsInColumn(uint8_t x, uint8_t y);
+
+    void populateTileAt(uint8_t x, uint8_t y);
+    bool isTileValid(uint8_t x, uint8_t y);
 };
 
 #endif

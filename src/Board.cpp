@@ -18,30 +18,26 @@ void Board::populate(uint32_t seed) {
 
   uint8_t startX = Random::between(0, this->width);
   uint8_t startY = Random::between(0, this->height);
-  TileValues startValue = Random::boolean() ? ONE : ZERO;
-  this->setTileAt(startX, startY, startValue, true);
+  this->setTileAt(startX, startY, Random::boolean() ? ONE : ZERO, true);
 
-  TileValues neighbourValue = Random::boolean() ? ONE : ZERO;
-  bool placedBlock = false;
-  do {
-    uint8_t direction = Random::between(0, 3);
-    switch(direction) {
-      case 0:
-        placedBlock = this->setTileAt(startX - 1, startY, neighbourValue, true);
-        break;
-      case 1:
-        placedBlock = this->setTileAt(startX, startY + 1, neighbourValue, true);
-        break;
-      case 2:
-        placedBlock = this->setTileAt(startX + 1, startY, neighbourValue, true);
-        break;
-      case 3:
-        placedBlock = this->setTileAt(startX, startY - 1, neighbourValue, true);
-        break;
-    }
-  } while(placedBlock == false);
+  this->populateTileAt(startX - 1, startY);
+  this->populateTileAt(startX + 1, startY);
+  this->populateTileAt(startX, startY - 1);
+  this->populateTileAt(startX, startY + 1);
 
   this->validate();
+}
+
+void Board::populateTileAt(uint8_t x, uint8_t y) {
+  Tile * tile = this->getTileAt(x, y);
+  if (tile == nullptr || tile->value != UNDEFINED) {
+    return;
+  }
+
+  tile->value = Random::boolean() ? ONE : ZERO;
+  if (!this->isTileValid(x, y)) {
+    tile->value = tile->value == ONE ? ZERO : ONE;
+  }
 }
 
 Tile * Board::getTileAt(uint8_t x, uint8_t y) {
@@ -84,22 +80,30 @@ bool Board::setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked) {
   return true;
 }
 
+bool Board::isTileValid(uint8_t x, uint8_t y) {
+  Tile * tile = this->getTileAt(x, y);
+
+  if (tile->value == UNDEFINED) {
+    return true;
+  }
+
+  if (
+    this->isInHorizontalTriplet(x, y)
+    || this->isInVerticalTriplet(x, y)
+    || this->hasTooManySameSymbolsInRow(x, y)
+    || this->hasTooManySameSymbolsInColumn(x, y)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 void Board::validate() {
   for(uint8_t y = 0; y < this->height; y++) {
     for(uint8_t x = 0; x < this->width; x++) {
       Tile * tile = this->getTileAt(x, y);
-
-      if (tile->value == UNDEFINED) {
-        tile->isIncorrect = false;
-        continue;
-      }
-
-      tile->isIncorrect =
-        this->isInHorizontalTriplet(x, y)
-        || this->isInVerticalTriplet(x, y)
-        || this->hasTooManySameSymbolsInRow(x, y)
-        || this->hasTooManySameSymbolsInColumn(x, y)
-      ;
+      tile->isIncorrect = !this->isTileValid(x, y);
     }
   }
 }

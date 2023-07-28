@@ -43,8 +43,8 @@ void setup() {
 
   board = new Board(8, 8);
 
-  // uint8_t seed = std::time(NULL);
-  uint8_t seed = 1;
+  // uint32_t seed = std::time(NULL);
+  uint32_t seed = 1;
   board->populate(seed);
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
