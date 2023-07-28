@@ -2,12 +2,10 @@
 #define RANDOM_HPP_
 
 #include <cstdlib>
-#include <ctime>
 #include <cstdint>
 
 class Random {
   public:
-    static void setSeed();
     static void setSeed(uint32_t seed);
 
     static double between0And1();

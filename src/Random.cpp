@@ -1,9 +1,5 @@
 #include "Random.hpp"
 
-void Random::setSeed() {
-  Random::setSeed(std::time(NULL));
-}
-
 void Random::setSeed(uint32_t seed) {
   std::srand(seed);
 }

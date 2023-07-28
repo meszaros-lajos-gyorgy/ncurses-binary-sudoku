@@ -14,11 +14,7 @@ Board::Board(uint8_t width, uint8_t height) {
 }
 
 void Board::populate(uint32_t seed) {
-  if (seed == 0) {
-    Random::setSeed();
-  } else {
-    Random::setSeed(seed);
-  }
+  Random::setSeed(seed);
 
   uint8_t startX = Random::between(0, this->width);
   uint8_t startY = Random::between(0, this->height);

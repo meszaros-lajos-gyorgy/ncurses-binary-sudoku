@@ -9,7 +9,7 @@ class Board {
   public:
     Board(uint8_t width, uint8_t height);
 
-    void populate(uint32_t seed = 0);
+    void populate(uint32_t seed);
 
     Tile * getTileAt(uint8_t x, uint8_t y);
     bool setTileAt(uint8_t x, uint8_t y, Tile * tile);

@@ -41,7 +41,9 @@ void setup() {
   init_pair(ColorSolved, COLOR_GREEN, COLOR_BLACK);
 
   board = new Board(8, 8);
-  board->populate();
+
+  uint8_t seed = 1; // std::time(NULL) -- #include <ctime>
+  board->populate(seed);
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
   mvprintw(1, 0, "Press [space] to flip, [0]/[1] to set and [backspace] to clear a tile!");
