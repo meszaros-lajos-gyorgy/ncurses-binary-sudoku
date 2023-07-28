@@ -9,11 +9,12 @@ class Board {
   public:
     Board(uint8_t width, uint8_t height);
 
-    void populate();
+    void populate(uint32_t seed = 0);
+
     Tile * getTileAt(uint8_t x, uint8_t y);
-    void setTileAt(uint8_t x, uint8_t y, Tile * tile);
-    void setTileAt(uint8_t x, uint8_t y, TileValues value);
-    void setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked);
+    bool setTileAt(uint8_t x, uint8_t y, Tile * tile);
+    bool setTileAt(uint8_t x, uint8_t y, TileValues value);
+    bool setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked);
     void validate();
     uint8_t getWidth();
     uint8_t getHeight();

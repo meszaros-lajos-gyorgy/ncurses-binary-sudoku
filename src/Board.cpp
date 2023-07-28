@@ -1,5 +1,6 @@
 #include <algorithm>
 #include "Board.hpp"
+#include "Random.hpp"
 
 Board::Board(uint8_t width, uint8_t height) {
   this->width = std::clamp(width, (uint8_t)2, (uint8_t)16);
@@ -12,37 +13,39 @@ Board::Board(uint8_t width, uint8_t height) {
   }
 }
 
-void Board::populate() {
-  // a simple 8x8 puzzle
-  if (this->width == 8 && this->height == 8) {
-    this->setTileAt(1, 0, ZERO, true);
-    this->setTileAt(2, 0, ZERO, true);
-    this->setTileAt(5, 0, ONE, true);
-
-    this->setTileAt(0, 1, ONE, true);
-    this->setTileAt(1, 1, ZERO, true);
-    this->setTileAt(3, 1, ONE, true);
-    this->setTileAt(5, 1, ONE, true);
-
-    this->setTileAt(7, 2, ZERO, true);
-
-    this->setTileAt(1, 3, ONE, true);
-    this->setTileAt(6, 3, ONE, true);
-    this->setTileAt(7, 3, ZERO, true);
-
-    this->setTileAt(0, 4, ZERO, true);
-    this->setTileAt(4, 4, ONE, true);
-
-    this->setTileAt(3, 5, ZERO, true);
-    this->setTileAt(7, 5, ONE, true);
-
-    this->setTileAt(1, 6, ONE, true);
-    this->setTileAt(4, 6, ONE, true);
-
-    this->setTileAt(7, 7, ONE, true);
-
-    this->validate();
+void Board::populate(uint32_t seed) {
+  if (seed == 0) {
+    Random::setSeed();
+  } else {
+    Random::setSeed(seed);
   }
+
+  uint8_t startX = Random::between(0, this->width);
+  uint8_t startY = Random::between(0, this->height);
+  TileValues startValue = Random::boolean() ? ONE : ZERO;
+  this->setTileAt(startX, startY, startValue, true);
+
+  TileValues neighbourValue = Random::boolean() ? ONE : ZERO;
+  bool placedBlock = false;
+  do {
+    uint8_t direction = Random::between(0, 3);
+    switch(direction) {
+      case 0:
+        placedBlock = this->setTileAt(startX - 1, startY, neighbourValue, true);
+        break;
+      case 1:
+        placedBlock = this->setTileAt(startX, startY + 1, neighbourValue, true);
+        break;
+      case 2:
+        placedBlock = this->setTileAt(startX + 1, startY, neighbourValue, true);
+        break;
+      case 3:
+        placedBlock = this->setTileAt(startX, startY - 1, neighbourValue, true);
+        break;
+    }
+  } while(placedBlock == false);
+
+  this->validate();
 }
 
 Tile * Board::getTileAt(uint8_t x, uint8_t y) {
@@ -53,33 +56,36 @@ Tile * Board::getTileAt(uint8_t x, uint8_t y) {
   return this->tiles->at(y * this->height + x);
 }
 
-void Board::setTileAt(uint8_t x, uint8_t y, Tile * tile) {
+bool Board::setTileAt(uint8_t x, uint8_t y, Tile * tile) {
   if (x >= this->width || y >= this->height) {
-    return;
+    return false;
   }
 
   this->tiles->at(y * this->height + x) = tile;
+  return true;
 }
 
-void Board::setTileAt(uint8_t x, uint8_t y, TileValues value) {
+bool Board::setTileAt(uint8_t x, uint8_t y, TileValues value) {
   Tile * tile = this->getTileAt(x, y);
 
   if (tile == nullptr) {
-    return;
+    return false;
   }
 
   tile->value = value;
+  return true;
 }
 
-void Board::setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked) {
+bool Board::setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked) {
   Tile * tile = this->getTileAt(x, y);
 
   if (tile == nullptr) {
-    return;
+    return false;
   }
 
   tile->value = value;
   tile->isLocked = isLocked;
+  return true;
 }
 
 void Board::validate() {
