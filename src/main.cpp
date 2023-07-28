@@ -2,6 +2,7 @@
 #include <locale>
 #include <cursesw.h>
 #include <wchar.h>
+#include <ctime>
 
 #include "Board.hpp"
 
@@ -42,7 +43,8 @@ void setup() {
 
   board = new Board(8, 8);
 
-  uint8_t seed = 1; // std::time(NULL) -- #include <ctime>
+  // uint8_t seed = std::time(NULL);
+  uint8_t seed = 1;
   board->populate(seed);
 
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
