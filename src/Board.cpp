@@ -4,15 +4,15 @@
 Board::Board(uint8_t width, uint8_t height) {
   this->width = std::clamp(width, (uint8_t)2, (uint8_t)16);
   this->height = std::clamp(height, (uint8_t)2, (uint8_t)16);
-}
 
-void Board::populate() {
   this->tiles = new std::vector<Tile *>(this->width * this->height);
 
   for(uint8_t i = 0; i < this->tiles->size(); i++) {
     this->tiles->at(i) = new Tile(UNDEFINED);
   }
+}
 
+void Board::populate() {
   // a simple 8x8 puzzle
   if (this->width == 8 && this->height == 8) {
     this->setTileAt(1, 0, new Tile(ZERO));
