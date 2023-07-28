@@ -133,16 +133,16 @@ bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
 }
 
 uint8_t Board::countSameSybolsInRow(uint8_t x, uint8_t y) {
-  if (y >= this->height) {
+  Tile * thisTile = this->getTileAt(x, y);
+
+  if (thisTile == nullptr) {
     return 0;
   }
-
-  Tile * thisTile = this->getTileAt(x, y);
 
   uint8_t sum = 0;
 
   for (uint8_t x = 0; x < this->width; x++) {
-    if (this->getTileAt(x, y)->equals(thisTile)) {
+    if (thisTile->equals(this->getTileAt(x, y))) {
       sum += 1;
     }
   }
@@ -151,16 +151,16 @@ uint8_t Board::countSameSybolsInRow(uint8_t x, uint8_t y) {
 }
 
 uint8_t Board::countSameSybolsInColumn(uint8_t x, uint8_t y) {
-  if (x >= this->width) {
+  Tile * thisTile = this->getTileAt(x, y);
+
+  if (thisTile == nullptr) {
     return 0;
   }
-
-  Tile * thisTile = this->getTileAt(x, y);
 
   uint8_t sum = 0;
 
   for (uint8_t y = 0; y < this->height; y++) {
-    if (this->getTileAt(x, y)->equals(thisTile)) {
+    if (thisTile->equals(this->getTileAt(x, y))) {
       sum += 1;
     }
   }
