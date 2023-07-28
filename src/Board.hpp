@@ -11,7 +11,9 @@ class Board {
 
     void populate();
     Tile * getTileAt(uint8_t x, uint8_t y);
-    void setTileAt(uint8_t x, uint8_t y, Tile * value);
+    void setTileAt(uint8_t x, uint8_t y, Tile * tile);
+    void setTileAt(uint8_t x, uint8_t y, TileValues value);
+    void setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked);
     void validate();
     uint8_t getWidth();
     uint8_t getHeight();

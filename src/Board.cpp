@@ -15,31 +15,33 @@ Board::Board(uint8_t width, uint8_t height) {
 void Board::populate() {
   // a simple 8x8 puzzle
   if (this->width == 8 && this->height == 8) {
-    this->setTileAt(1, 0, new Tile(ZERO));
-    this->setTileAt(2, 0, new Tile(ZERO));
-    this->setTileAt(5, 0, new Tile(ONE));
+    this->setTileAt(1, 0, ZERO, true);
+    this->setTileAt(2, 0, ZERO, true);
+    this->setTileAt(5, 0, ONE, true);
 
-    this->setTileAt(0, 1, new Tile(ONE));
-    this->setTileAt(1, 1, new Tile(ZERO));
-    this->setTileAt(3, 1, new Tile(ONE));
-    this->setTileAt(5, 1, new Tile(ONE));
+    this->setTileAt(0, 1, ONE, true);
+    this->setTileAt(1, 1, ZERO, true);
+    this->setTileAt(3, 1, ONE, true);
+    this->setTileAt(5, 1, ONE, true);
 
-    this->setTileAt(7, 2, new Tile(ZERO));
+    this->setTileAt(7, 2, ZERO, true);
 
-    this->setTileAt(1, 3, new Tile(ONE));
-    this->setTileAt(6, 3, new Tile(ONE));
-    this->setTileAt(7, 3, new Tile(ZERO));
+    this->setTileAt(1, 3, ONE, true);
+    this->setTileAt(6, 3, ONE, true);
+    this->setTileAt(7, 3, ZERO, true);
 
-    this->setTileAt(0, 4, new Tile(ZERO));
-    this->setTileAt(4, 4, new Tile(ONE));
+    this->setTileAt(0, 4, ZERO, true);
+    this->setTileAt(4, 4, ONE, true);
 
-    this->setTileAt(3, 5, new Tile(ZERO));
-    this->setTileAt(7, 5, new Tile(ONE));
+    this->setTileAt(3, 5, ZERO, true);
+    this->setTileAt(7, 5, ONE, true);
 
-    this->setTileAt(1, 6, new Tile(ONE));
-    this->setTileAt(4, 6, new Tile(ONE));
+    this->setTileAt(1, 6, ONE, true);
+    this->setTileAt(4, 6, ONE, true);
 
-    this->setTileAt(7, 7, new Tile(ONE));
+    this->setTileAt(7, 7, ONE, true);
+
+    this->validate();
   }
 }
 
@@ -51,12 +53,33 @@ Tile * Board::getTileAt(uint8_t x, uint8_t y) {
   return this->tiles->at(y * this->height + x);
 }
 
-void Board::setTileAt(uint8_t x, uint8_t y, Tile * value) {
+void Board::setTileAt(uint8_t x, uint8_t y, Tile * tile) {
   if (x >= this->width || y >= this->height) {
     return;
   }
 
-  this->tiles->at(y * this->height + x) = value;
+  this->tiles->at(y * this->height + x) = tile;
+}
+
+void Board::setTileAt(uint8_t x, uint8_t y, TileValues value) {
+  if (x >= this->width || y >= this->height) {
+    return;
+  }
+
+  Tile * tile = this->tiles->at(y * this->height + x);
+
+  tile->value = value;
+}
+
+void Board::setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked) {
+  if (x >= this->width || y >= this->height) {
+    return;
+  }
+
+  Tile * tile = this->tiles->at(y * this->height + x);
+
+  tile->value = value;
+  tile->isLocked = isLocked;
 }
 
 void Board::validate() {
