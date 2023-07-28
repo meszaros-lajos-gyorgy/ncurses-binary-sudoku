@@ -62,21 +62,21 @@ void Board::setTileAt(uint8_t x, uint8_t y, Tile * tile) {
 }
 
 void Board::setTileAt(uint8_t x, uint8_t y, TileValues value) {
-  if (x >= this->width || y >= this->height) {
+  Tile * tile = this->getTileAt(x, y);
+
+  if (tile == nullptr) {
     return;
   }
-
-  Tile * tile = this->tiles->at(y * this->height + x);
 
   tile->value = value;
 }
 
 void Board::setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked) {
-  if (x >= this->width || y >= this->height) {
+  Tile * tile = this->getTileAt(x, y);
+
+  if (tile == nullptr) {
     return;
   }
-
-  Tile * tile = this->tiles->at(y * this->height + x);
 
   tile->value = value;
   tile->isLocked = isLocked;
