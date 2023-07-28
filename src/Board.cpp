@@ -44,11 +44,7 @@ void Board::populate() {
 }
 
 Tile * Board::getTileAt(uint8_t x, uint8_t y) {
-  if (x < 0 || x >= this->width) {
-    return nullptr;
-  }
-
-  if (y < 0 || y >= this->height) {
+  if (x >= this->width || y >= this->height) {
     return nullptr;
   }
 
@@ -56,11 +52,7 @@ Tile * Board::getTileAt(uint8_t x, uint8_t y) {
 }
 
 void Board::setTileAt(uint8_t x, uint8_t y, Tile * value) {
-  if (x < 0 || x >= this->width) {
-    return;
-  }
-
-  if (y < 0 || y >= this->height) {
+  if (x >= this->width || y >= this->height) {
     return;
   }
 
@@ -116,7 +108,7 @@ bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
 }
 
 uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
-  if (y < 0 || y >= this->height) {
+  if (y >= this->height) {
     return 0;
   }
 
@@ -132,7 +124,7 @@ uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
 }
 
 uint8_t Board::countSybolsInColumn(uint8_t x, TileValues symbol) {
-  if (x < 0 || x >= this->width) {
+  if (x >= this->width) {
     return 0;
   }
 
