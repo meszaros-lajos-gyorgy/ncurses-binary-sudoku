@@ -25,8 +25,10 @@ class Board {
 
     bool isInHorizontalTriplet(uint8_t x, uint8_t y);
     bool isInVerticalTriplet(uint8_t x, uint8_t y);
-    uint8_t countSybolsInRow(uint8_t y, TileValues symbol);
-    uint8_t countSybolsInColumn(uint8_t x, TileValues symbol);
+    uint8_t countSameSybolsInRow(uint8_t x, uint8_t y);
+    uint8_t countSameSybolsInColumn(uint8_t x, uint8_t y);
+    bool hasTooManySameSymbolsInRow(uint8_t x, uint8_t y);
+    bool hasTooManySameSymbolsInColumn(uint8_t x, uint8_t y);
 };
 
 #endif

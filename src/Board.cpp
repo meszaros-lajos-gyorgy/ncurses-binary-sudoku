@@ -95,6 +95,8 @@ void Board::validate() {
       tile->isIncorrect =
         this->isInHorizontalTriplet(x, y)
         || this->isInVerticalTriplet(x, y)
+        || this->hasTooManySameSymbolsInRow(x, y)
+        || this->hasTooManySameSymbolsInColumn(x, y)
       ;
     }
   }
@@ -130,15 +132,17 @@ bool Board::isInVerticalTriplet(uint8_t x, uint8_t y) {
   return isMiddle || isBottom || isTop;
 }
 
-uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
+uint8_t Board::countSameSybolsInRow(uint8_t x, uint8_t y) {
   if (y >= this->height) {
     return 0;
   }
 
+  Tile * thisTile = this->getTileAt(x, y);
+
   uint8_t sum = 0;
 
   for (uint8_t x = 0; x < this->width; x++) {
-    if (this->getTileAt(x, y)->value == symbol) {
+    if (this->getTileAt(x, y)->equals(thisTile)) {
       sum += 1;
     }
   }
@@ -146,20 +150,30 @@ uint8_t Board::countSybolsInRow(uint8_t y, TileValues symbol) {
   return sum;
 }
 
-uint8_t Board::countSybolsInColumn(uint8_t x, TileValues symbol) {
+uint8_t Board::countSameSybolsInColumn(uint8_t x, uint8_t y) {
   if (x >= this->width) {
     return 0;
   }
 
+  Tile * thisTile = this->getTileAt(x, y);
+
   uint8_t sum = 0;
 
   for (uint8_t y = 0; y < this->height; y++) {
-    if (this->getTileAt(x, y)->value == symbol) {
+    if (this->getTileAt(x, y)->equals(thisTile)) {
       sum += 1;
     }
   }
 
   return sum;
+}
+
+bool Board::hasTooManySameSymbolsInRow(uint8_t x, uint8_t y) {
+  return this->countSameSybolsInRow(x, y) > (this->width / 2);
+}
+
+bool Board::hasTooManySameSymbolsInColumn(uint8_t x, uint8_t y) {
+  return this->countSameSybolsInColumn(x, y) > (this->height / 2);
 }
 
 uint8_t Board::getWidth() {
