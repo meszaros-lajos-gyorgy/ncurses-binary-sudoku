@@ -18,6 +18,7 @@ class Board {
     void validate();
     uint8_t getWidth();
     uint8_t getHeight();
+    bool isSolved();
 
   private:
     uint8_t width;

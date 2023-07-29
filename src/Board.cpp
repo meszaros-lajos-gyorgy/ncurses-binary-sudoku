@@ -189,3 +189,13 @@ uint8_t Board::getWidth() {
 uint8_t Board::getHeight() {
   return this->height;
 }
+
+bool Board::isSolved() {
+  for (uint8_t i = 0; i < this->width * this->height; i++) {
+    if (this->tiles->at(i)->value == UNDEFINED || this->tiles->at(i)->isIncorrect) {
+      return false;
+    }
+  }
+
+  return true;
+}
