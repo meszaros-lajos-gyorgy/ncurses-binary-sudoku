@@ -41,12 +41,6 @@ void setup() {
   init_pair(ColorError, COLOR_RED, COLOR_BLACK);
   init_pair(ColorSolved, COLOR_GREEN, COLOR_BLACK);
 
-  board = new Board(8, 8);
-
-  // uint32_t seed = std::time(NULL);
-  uint32_t seed = 1;
-  board->populate(seed);
-
   mvprintw(0, 0, "Press the [arrow keys] to move and press [q] to exit!");
   mvprintw(1, 0, "Press [space] to flip, [0]/[1] to set and [backspace] to clear a tile!");
   refresh();
@@ -73,6 +67,8 @@ void view() {
 
   box(boardWindow, 0, 0);
 
+  bool isBoardSolved = board->isSolved();
+
   for(int y = 0; y < board->getHeight(); y++) {
     for(int x = 0; x < board->getWidth(); x++) {
       Tile * tile = board->getTileAt(x, y);
@@ -80,6 +76,8 @@ void view() {
 
       if (x == cursorX && y == cursorY) {
         color = COLOR_PAIR(ColorCursor);
+      } else if (isBoardSolved) {
+        color = COLOR_PAIR(ColorSolved);
       } else if (tile->isIncorrect) {
         color = COLOR_PAIR(ColorError);
       } else {
@@ -152,6 +150,12 @@ void controller() {
 
 int main() {
   setup();
+
+  board = new Board(4, 4);
+
+  // uint32_t seed = std::time(NULL);
+  uint32_t seed = 1;
+  board->populate(seed);
 
   do {
     view();
