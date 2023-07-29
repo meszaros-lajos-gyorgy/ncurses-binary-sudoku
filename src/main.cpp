@@ -16,6 +16,7 @@ Board * board;
 
 int cursorX = 0;
 int cursorY = 0;
+bool windowResized = false;
 
 enum Colors {
   ColorDefault = 1,
@@ -53,16 +54,23 @@ void teardown() {
 }
 
 void view() {
-  int windowPositionTop = 4;
-  int windowPositionLeft = 4;
-
   if (boardWindow == NULL) {
-    boardWindow = newwin(
-      board->getHeight() * Tile::height + 2,
-      board->getWidth() * Tile::width + 2,
-      windowPositionTop,
-      windowPositionLeft
-    );
+    int top = 4;
+    int left = 4;
+
+    int windowHeight = board->getHeight() * Tile::height + 2;
+    int windowWidth = board->getWidth() * Tile::width + 2;
+
+    boardWindow = newwin(windowHeight, windowWidth, top, left);
+  }
+
+  if (windowResized) {
+    windowResized = false;
+
+    int top = 6;
+    int left = 6;
+
+    mvwin(boardWindow, top, left);
   }
 
   box(boardWindow, 0, 0);
