@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "Board.hpp"
 #include "Random.hpp"
+#include <cursesw.h>
 
 Board::Board(uint8_t width, uint8_t height) {
   this->width = std::clamp(width, (uint8_t)2, (uint8_t)16);
@@ -13,31 +14,69 @@ Board::Board(uint8_t width, uint8_t height) {
   }
 }
 
-void Board::populate(uint32_t seed) {
+uint32_t Board::populate(uint32_t seed) {
   Random::setSeed(seed);
+  this->seed = seed;
 
-  uint8_t startX = Random::between(0, this->width);
-  uint8_t startY = Random::between(0, this->height);
-  this->setTileAt(startX, startY, Random::boolean() ? ONE : ZERO, true);
+  uint32_t tries = 0;
 
-  this->populateTileAt(startX - 1, startY);
-  this->populateTileAt(startX + 1, startY);
-  this->populateTileAt(startX, startY - 1);
-  this->populateTileAt(startX, startY + 1);
+  do {
+    tries++;
 
-  this->validate();
-}
+    // create a checkerboard pattern
+    for (uint8_t y = 0; y < this->height; y++) {
+      for (uint8_t x = 0; x < this->width; x++) {
+        if ((x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1)) {
+          this->setTileAt(x, y, ONE);
+        } else {
+          this->setTileAt(x, y, ZERO);
+        }
+      }
+    }
 
-void Board::populateTileAt(uint8_t x, uint8_t y) {
-  Tile * tile = this->getTileAt(x, y);
-  if (tile == nullptr || tile->value != UNDEFINED) {
-    return;
-  }
+    // swap 2 random tiles 100 times
+    for (uint32_t i = 0; i < 100; i++) {
+      uint8_t aX = Random::between(0, this->width);
+      uint8_t aY = Random::between(0, this->height);
+      uint8_t bX = Random::between(0, this->width);
+      uint8_t bY = Random::between(0, this->height);
+      TileValues tmp = this->getTileAt(aX, aY)->value;
+      this->setTileAt(aX, aY, this->getTileAt(bX, bY)-> value);
+      this->setTileAt(bX, bY, tmp);
+    }
 
-  tile->value = Random::boolean() ? ONE : ZERO;
-  if (!this->isTileValid(x, y)) {
-    tile->value = tile->value == ONE ? ZERO : ONE;
-  }
+    uint32_t numberOfInvalidTiles = this->validate();
+
+    uint32_t iterations = 0;
+    // keep swapping for a maximum of 10000 iterations or until solved
+    while (!this->isSolved() && iterations < 10000) {
+      iterations++;
+
+      uint8_t aX = Random::between(0, this->width);
+      uint8_t aY = Random::between(0, this->height);
+      uint8_t bX = Random::between(0, this->width);
+      uint8_t bY = Random::between(0, this->height);
+
+      TileValues tmp = this->getTileAt(aX, aY)->value;
+      this->setTileAt(aX, aY, this->getTileAt(bX, bY)-> value);
+      this->setTileAt(bX, bY, tmp);
+
+      uint32_t newNumberOfInvalidTiles = this->validate();
+
+      // if the new board is worse then the previous, then undo
+      if (newNumberOfInvalidTiles >= numberOfInvalidTiles) {
+        TileValues tmp = this->getTileAt(aX, aY)->value;
+        this->setTileAt(aX, aY, this->getTileAt(bX, bY)-> value);
+        this->setTileAt(bX, bY, tmp);
+      } else {
+        numberOfInvalidTiles = newNumberOfInvalidTiles;
+      }
+    }
+
+    this->validate();
+  } while(!this->isSolved());
+
+  return tries;
 }
 
 Tile * Board::getTileAt(uint8_t x, uint8_t y) {
@@ -99,13 +138,20 @@ bool Board::isTileValid(uint8_t x, uint8_t y) {
   return true;
 }
 
-void Board::validate() {
+uint32_t Board::validate() {
+  uint32_t numberOfInvalidTiles = 0;
+
   for(uint8_t y = 0; y < this->height; y++) {
     for(uint8_t x = 0; x < this->width; x++) {
       Tile * tile = this->getTileAt(x, y);
       tile->isIncorrect = !this->isTileValid(x, y);
+      if (tile->isIncorrect) {
+        numberOfInvalidTiles++;
+      }
     }
   }
+
+  return numberOfInvalidTiles;
 }
 
 bool Board::isInHorizontalTriplet(uint8_t x, uint8_t y) {

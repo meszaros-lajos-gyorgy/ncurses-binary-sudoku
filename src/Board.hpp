@@ -7,15 +7,16 @@
 
 class Board {
   public:
+    uint32_t seed;
+
     Board(uint8_t width, uint8_t height);
 
-    void populate(uint32_t seed);
-
+    uint32_t populate(uint32_t seed);
     Tile * getTileAt(uint8_t x, uint8_t y);
     bool setTileAt(uint8_t x, uint8_t y, Tile * tile);
     bool setTileAt(uint8_t x, uint8_t y, TileValues value);
     bool setTileAt(uint8_t x, uint8_t y, TileValues value, bool isLocked);
-    void validate();
+    uint32_t validate();
     uint8_t getWidth();
     uint8_t getHeight();
     bool isSolved();
@@ -32,7 +33,6 @@ class Board {
     bool hasTooManySameSymbolsInRow(uint8_t x, uint8_t y);
     bool hasTooManySameSymbolsInColumn(uint8_t x, uint8_t y);
 
-    void populateTileAt(uint8_t x, uint8_t y);
     bool isTileValid(uint8_t x, uint8_t y);
 };
 
