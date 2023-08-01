@@ -22,6 +22,8 @@ uint32_t Board::populate(uint32_t seed) {
 
   do {
     tries++;
+    mvprintw(1, 0, "try: %d", tries);
+    refresh();
 
     // create a checkerboard pattern
     for (uint8_t y = 0; y < this->height; y++) {
@@ -47,11 +49,10 @@ uint32_t Board::populate(uint32_t seed) {
 
     uint32_t numberOfInvalidTiles = this->validate();
 
-    uint32_t iterations = 0;
-    // keep swapping for a maximum of 10000 iterations or until solved
-    while (!this->isSolved() && iterations < 10000) {
-      iterations++;
+    constexpr uint32_t FAIL_AFTER_N_TRIES = 10000;
 
+    uint32_t remainingTriesForImprovement = FAIL_AFTER_N_TRIES;
+    while (!this->isSolved() && remainingTriesForImprovement > 0) {
       uint8_t aX = Random::between(0, this->width);
       uint8_t aY = Random::between(0, this->height);
       uint8_t bX = Random::between(0, this->width);
@@ -63,12 +64,14 @@ uint32_t Board::populate(uint32_t seed) {
 
       uint32_t newNumberOfInvalidTiles = this->validate();
 
-      // if the new board is worse then the previous, then undo
       if (newNumberOfInvalidTiles >= numberOfInvalidTiles) {
+      // if the new board is worse then the previous, then undo
         TileValues tmp = this->getTileAt(aX, aY)->value;
         this->setTileAt(aX, aY, this->getTileAt(bX, bY)-> value);
         this->setTileAt(bX, bY, tmp);
+        remainingTriesForImprovement--;
       } else {
+        // the board is now less "unsolved" by having less invalid tiles
         numberOfInvalidTiles = newNumberOfInvalidTiles;
       }
     }

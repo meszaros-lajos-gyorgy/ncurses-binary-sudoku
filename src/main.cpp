@@ -163,7 +163,7 @@ int main() {
   board = new Board(10, 10);
 
   uint32_t seed = std::time(NULL);
-  // uint32_t seed = 1690815581;
+  // uint32_t seed = 1690896737;
   uint32_t numberOfTries = board->populate(seed);
 
   mvprintw(0, 0, "Binary Sudoku - seed: %d", board->seed);
