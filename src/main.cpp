@@ -42,7 +42,7 @@ void setup() {
   init_pair(ColorError, COLOR_RED, COLOR_BLACK);
   init_pair(ColorSolved, COLOR_GREEN, COLOR_BLACK);
 
-  mvprintw(0, 0, "Binary Sudoku");
+  mvprintw(0, 0, "Binary Sudoku - loading...");
   mvprintw(2, 0, "Press the [arrow keys] to move and press [q] to exit!");
   mvprintw(3, 0, "Press [space] to flip, [0]/[1] to set and [backspace] to clear a tile!");
   refresh();
@@ -160,13 +160,14 @@ void controller() {
 int main() {
   setup();
 
-  board = new Board(6, 6);
+  board = new Board(10, 10);
 
   uint32_t seed = std::time(NULL);
   // uint32_t seed = 1690815581;
   uint32_t numberOfTries = board->populate(seed);
 
   mvprintw(0, 0, "Binary Sudoku - seed: %d", board->seed);
+  mvprintw(1, 0, "          ");
   mvprintw(board->getHeight() + 8, 0, "[debug] number of tries when generating board: %d", numberOfTries);
   refresh();
 
