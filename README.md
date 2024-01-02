@@ -1,6 +1,6 @@
-# ncurses-binary-sudoku
+# Command-Line Binary Sudoku - using ncurses
 
-A terminal based binary sudoku written using ncurses
+(work in progress) A terminal based binary sudoku written in C++ 17 using ncurses
 
 ![screenshot](screenshot.png?raw=true "screenshot")
 
