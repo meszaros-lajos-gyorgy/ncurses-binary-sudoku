@@ -137,14 +137,25 @@ of a single row:
 010011
 ```
 
-This algorithm works for all larger rows, like `8×8` and the formula for the total number of rows that you
-will get from this is:
+This algorithm works for all larger rows, like a 8 field row of a `8×8` board. The total number of
+possible rows can be calculated with the following formula:
 
 ```
-2 * 2^(n/2) - 2
+# of possible rows = 2 * 2 ^ (n / 2) - 2
 ```
 
-where `n` is the number of fields in a row.
+where `n` is the number of fields in a row:
+
+| n   | # of possible rows   |
+| --- | -------------------- |
+| 4   | 6                    |
+| 6   | 14                   |
+| 8   | 30                   |
+| 10  | 62                   |
+| 12  | 126                  |
+| n   | 2 \* 2 ^ (n / 2) - 2 |
+
+The formula expects `n` to be divisible by 2, and larger or equal to 4.
 
 #### Joining individual rows to form a board
 
@@ -168,7 +179,7 @@ Although before and after that the whole row needs to be inverted.
 
 - pick a random row from all possible rows and place it randomly into the board
 - keep a track of the number of ones and zeros used in each column
-- if a column reaches `(n/2)` in either zeros or ones then rows containing that specific value at the specific
+- if a column reaches `(n / 2)` in either zeros or ones then rows containing that specific value at the specific
   column can be removed and all subsequent rows need to be picked from the remaining rows
 
 This seems to be a viable way of generating the last few rows of the table:
