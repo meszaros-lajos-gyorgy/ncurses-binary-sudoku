@@ -2,6 +2,7 @@
   "files.associations": {
     "*.rooms": "shellscript",
     "ncurses.h": "c",
-    "wchar.h": "c"
+    "wchar.h": "c",
+    "ctime": "cpp"
   }
 }

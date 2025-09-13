@@ -1,10 +1,22 @@
 all: run
 
 build:
-	g++ -std=c++17 -Wall -Wextra -pedantic src/Random.cpp src/Tile.cpp src/Board.cpp src/main.cpp -lncursesw -o dist/main.out
+	g++ \
+		src/Random.cpp \
+		src/Text.cpp \
+		src/pages/Page.cpp \
+		src/pages/Home.cpp \
+		src/App.cpp \
+		src/main.cpp \
+		-std=c++17 \
+		-Wall \
+		-Wextra \
+		-pedantic \
+		-lncursesw \
+		-o dist/ncurses-binary-sudoku.out
 
 run: build
-	dist/main.out
+	dist/ncurses-binary-sudoku.out
 
-clean: dist/main.out
-	rm dist/main.out
+clean: dist/ncurses-binary-sudoku.out
+	rm dist/ncurses-binary-sudoku.out

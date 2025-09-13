@@ -10,6 +10,10 @@
 
 `sudo apt install libncurses5-dev libncursesw5-dev`
 
+## Compiling and running the app
+
+`make --quiet`
+
 ## References and useful links
 
 - [installing ncurses on linux](https://www.cyberciti.biz/faq/linux-install-ncurses-library-headers-on-debian-ubuntu-centos-fedora/)
