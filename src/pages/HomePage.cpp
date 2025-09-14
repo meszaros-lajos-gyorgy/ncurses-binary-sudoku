@@ -1,22 +1,22 @@
 #include <cursesw.h>
-#include "Home.hpp"
-#include "GenerateBoard.hpp"
+#include "HomePage.hpp"
+#include "GenerateBoardPage.hpp"
 #include "../Text.hpp"
 
-Home::Home() {
+HomePage::HomePage() {
   this->selectedMenu = 0;
 
   this->page = nullptr;
 }
 
-Home::~Home() {
+HomePage::~HomePage() {
   if (this->page != nullptr) {
     delete this->page;
     this->page = nullptr;
   }
 }
 
-void Home::render() {
+void HomePage::render() {
   if (this->page != nullptr) {
     this->page->render();
     return;
@@ -35,7 +35,7 @@ void Home::render() {
   }
 }
 
-int Home::onKeyPress(int key) {
+int HomePage::onKeyPress(int key) {
   if (this->page != nullptr) {
     int pageStatus = this->page->onKeyPress(key);
 
@@ -81,7 +81,7 @@ int Home::onKeyPress(int key) {
         }
 
         case 1: {
-          this->page = new GenerateBoard();
+          this->page = new GenerateBoardPage();
           break;
         }
 

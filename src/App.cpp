@@ -1,7 +1,7 @@
 #include <cursesw.h>
 #include "App.hpp"
 #include "pages/Page.hpp"
-#include "pages/Home.hpp"
+#include "pages/HomePage.hpp"
 
 #define CURSOR_OFF 0
 
@@ -21,7 +21,7 @@ App::App() {
   // https://stackoverflow.com/a/71567651/1806628
   ESCDELAY = 10;
 
-  this->page = new Home();
+  this->page = new HomePage();
 }
 
 App::~App() {

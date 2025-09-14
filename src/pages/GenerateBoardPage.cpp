@@ -1,22 +1,22 @@
 // #include <ctime>
 #include <cursesw.h>
-#include "GenerateBoard.hpp"
+#include "GenerateBoardPage.hpp"
 #include "../Text.hpp"
 
-GenerateBoard::GenerateBoard() {
+GenerateBoardPage::GenerateBoardPage() {
   this->board = nullptr;
 
   this->boardSize = 6;
 }
 
-GenerateBoard::~GenerateBoard() {
+GenerateBoardPage::~GenerateBoardPage() {
   if (this->board != nullptr) {
     delete this->board;
     this->board = nullptr;
   }
 }
 
-void GenerateBoard::render() {
+void GenerateBoardPage::render() {
   clear();
 
   Text::writeAlignLeft(0, "press ESC to return back to previous menu");
@@ -28,7 +28,7 @@ void GenerateBoard::render() {
   }
 }
 
-int GenerateBoard::onKeyPress(int key) {
+int GenerateBoardPage::onKeyPress(int key) {
   int status = StatusNop;
 
   switch (key) {

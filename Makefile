@@ -5,8 +5,8 @@ build:
 		src/Random.cpp \
 		src/Text.cpp \
 		src/pages/Page.cpp \
-		src/pages/Home.cpp \
-		src/pages/GenerateBoard.cpp \
+		src/pages/HomePage.cpp \
+		src/pages/GenerateBoardPage.cpp \
 		src/board/Tile.cpp \
 		src/board/Row.cpp \
 		src/board/Board.cpp \

@@ -1,13 +1,13 @@
-#ifndef HOME_HPP_
-#define HOME_HPP_
+#ifndef HOME_PAGE_HPP_
+#define HOME_PAGE_HPP_
 
-#include <cstdio>
+#include <cstdint>
 #include "Page.hpp"
 
-class Home : public Page {
+class HomePage : public Page {
   public:
-    Home();
-    ~Home();
+    HomePage();
+    ~HomePage();
 
     void render();
     int onKeyPress(int key);

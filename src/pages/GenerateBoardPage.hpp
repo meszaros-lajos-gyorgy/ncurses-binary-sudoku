@@ -1,14 +1,14 @@
-#ifndef GENERATE_BOARD_HPP_
-#define GENERATE_BOARD_HPP_
+#ifndef GENERATE_BOARD_PAGE_HPP_
+#define GENERATE_BOARD_PAGE_HPP_
 
 #include <cstdint>
 #include "Page.hpp"
 #include "../board/Board.hpp"
 
-class GenerateBoard : public Page {
+class GenerateBoardPage : public Page {
   public:
-    GenerateBoard();
-    ~GenerateBoard();
+    GenerateBoardPage();
+    ~GenerateBoardPage();
 
     void render();
     int onKeyPress(int key);
