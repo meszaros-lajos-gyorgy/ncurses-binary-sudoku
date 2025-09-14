@@ -3,8 +3,7 @@
 
 enum Statuses {
   StatusNop = 0,
-  StatusPageClosed = 1 << 0,
-  StatusKeyHandled = 1 << 1,
+  StatusPageClosed = 1 << 0
 };
 
 class Page {

@@ -14,6 +14,7 @@ class Home : public Page {
   
   private:
     uint8_t selectedMenu;
+    Page * page;
 };
 
 #endif

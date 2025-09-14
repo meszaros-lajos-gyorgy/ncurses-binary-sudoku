@@ -16,38 +16,40 @@ App::App() {
 
   keypad(stdscr, true);
   start_color();
+
+  // make sure escape doesn't have to be pressed twice
+  // https://stackoverflow.com/a/71567651/1806628
+  ESCDELAY = 10;
+
+  page = new Home();
 }
 
 App::~App() {
   keypad(stdscr, false);
   endwin();
+
+  if (page != nullptr) {
+    delete page;
+    page = nullptr;
+  }
 }
 
 void App::run() {
   bool programCanExit = false;
 
-  Page * page = new Home();
-
-  int lastStatus = StatusNop;
-
   do {
     page->render();
 
     int lastPressedKey = wgetch(stdscr);
-    lastStatus = page->onKeyPress(lastPressedKey);
+    int pageStatus = page->onKeyPress(lastPressedKey);
 
-    while (!(lastStatus & StatusKeyHandled)) {
-      // TODO: some other parts of the code might want to handle the keypress
-      mvprintw(5, 0, "lastPressedKey = %c  ", lastPressedKey);
-      lastStatus = lastStatus | StatusKeyHandled;
-    }
+    if (pageStatus & StatusPageClosed) {
+      pageStatus = pageStatus & ~StatusPageClosed;
 
-    if (lastStatus & StatusPageClosed) {
-      lastStatus = lastStatus & ~StatusPageClosed;
+      delete page;
+      page = nullptr;
+
       programCanExit = true;
     }
   } while(!programCanExit);
-
-  delete page;
-  page = nullptr;
 }
