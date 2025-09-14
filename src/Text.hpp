@@ -3,9 +3,9 @@
 
 class Text {
   public:
-    static void writeAlignLeft(int x, int y, std::string text);
-    static void writeAlignCenter(int x, int y, std::string text);
-    static void writeAlignRight(int x, int y, std::string text);
+    static void writeAlignLeft(int y, const char* text, ...);
+    static void writeAlignCenter(int y, const char* text, ...);
+    static void writeAlignRight(int y, const char* text, ...);
 };
 
 #endif

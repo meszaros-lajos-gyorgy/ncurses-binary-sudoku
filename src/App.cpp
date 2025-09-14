@@ -21,16 +21,16 @@ App::App() {
   // https://stackoverflow.com/a/71567651/1806628
   ESCDELAY = 10;
 
-  page = new Home();
+  this->page = new Home();
 }
 
 App::~App() {
   keypad(stdscr, false);
   endwin();
 
-  if (page != nullptr) {
-    delete page;
-    page = nullptr;
+  if (this->page != nullptr) {
+    delete this->page;
+    this->page = nullptr;
   }
 }
 
@@ -38,16 +38,16 @@ void App::run() {
   bool programCanExit = false;
 
   do {
-    page->render();
+    this->page->render();
 
     int lastPressedKey = wgetch(stdscr);
-    int pageStatus = page->onKeyPress(lastPressedKey);
+    int pageStatus = this->page->onKeyPress(lastPressedKey);
 
     if (pageStatus & StatusPageClosed) {
       pageStatus = pageStatus & ~StatusPageClosed;
 
-      delete page;
-      page = nullptr;
+      delete this->page;
+      this->page = nullptr;
 
       programCanExit = true;
     }
