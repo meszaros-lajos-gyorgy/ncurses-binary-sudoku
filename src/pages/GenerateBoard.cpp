@@ -2,6 +2,10 @@
 #include "GenerateBoard.hpp"
 #include "../Text.hpp"
 
+// TODO: inputs from user:
+//   - board size (width × height)
+//   - seed
+
 GenerateBoard::GenerateBoard() {}
 
 GenerateBoard::~GenerateBoard() {}
