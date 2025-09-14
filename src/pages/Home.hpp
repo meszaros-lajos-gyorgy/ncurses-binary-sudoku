@@ -1,6 +1,7 @@
 #ifndef HOME_HPP_
 #define HOME_HPP_
 
+#include <cstdio>
 #include "Page.hpp"
 
 class Home : public Page {
@@ -10,6 +11,9 @@ class Home : public Page {
 
     void render();
     int onKeyPress(int key);
+  
+  private:
+    uint8_t selectedMenu;
 };
 
 #endif

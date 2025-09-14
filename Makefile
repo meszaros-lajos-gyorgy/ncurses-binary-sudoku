@@ -6,6 +6,9 @@ build:
 		src/Text.cpp \
 		src/pages/Page.cpp \
 		src/pages/Home.cpp \
+		src/board/Tile.cpp \
+		src/board/Row.cpp \
+		src/board/Board.cpp \
 		src/App.cpp \
 		src/main.cpp \
 		-std=c++17 \
