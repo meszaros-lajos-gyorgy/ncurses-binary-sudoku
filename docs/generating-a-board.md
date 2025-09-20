@@ -32,15 +32,37 @@ function hasTooLargerGroup(row) {
 const rows = Array(1 << n)
   .fill(0)
   .map((_, i) => {
+    // 2 ^ n
     return numberToBinaryString(i);
   })
   .filter((row) => {
+    // n choose n / 2
     return countOnes(row) === n / 2;
   })
   .filter((row) => {
+    // ?
     return !hasTooLargerGroup(row);
   });
 ```
+
+---
+
+| n   | 2 ^ n      | n choose (n / 2) | # of valid rows |
+| --- | ---------- | ---------------- | --------------- |
+| 2   | 4          | 2                | 2               |
+| 4   | 16         | 6                | 6               |
+| 6   | 64         | 20               | 14              |
+| 8   | 256        | 70               | 34              |
+| 10  | 1 024      | 252              | 84              |
+| 12  | 4 096      | 924              | 208             |
+| 14  | 16 384     | 3 432            | 518             |
+| 16  | 65 536     | 12 870           | 1 296           |
+| 18  | 262 144    | 48 620           | 3 254           |
+| 20  | 1 048 576  | 184 756          | 8 196           |
+| 22  | 4 194 304  | 705 432          | 20 700          |
+| 24  | 16 777 216 | 2 704 156        | 52 404          |
+
+\# of valid rows is on OEIS: https://oeis.org/A177790
 
 ## Combining rows into a board
 
